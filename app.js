@@ -18,8 +18,7 @@ app.get('/api/create-paper-intent', (req, res) => {
         url: 'https://paper.xyz/api/2022-08-12/checkout-link-intent',
         headers: {
             accept: 'application/json',
-            'content-type': 'application/json',
-            charset: 'utf-8',
+            'content-type': 'application/json', 'charset': 'utf-8',
             Authorization: process.env.REACT_APP_PAPER_KEY
         },
         data: {
