@@ -10,8 +10,6 @@ app.use(cors());
 
 app.get('/api/create-paper-intent', (req, res) => {
 
-    console.log(process.env.REACT_APP_PAPER_KEY);
-
     const listingId = req.query.listingId;
     const img = req.query.img;
 
