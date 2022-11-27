@@ -19,7 +19,7 @@ app.get('/api/create-paper-intent', (req, res) => {
         headers: {
             accept: 'application/json',
             'content-type': 'application/json',
-            Authorization: process.env.REACT_APP_PAPER_KEY
+            Authorization: "Bearer 33fae880-d50e-401f-883c-939f4ab2742c"
         },
         data: {
             sendEmailOnCreation: false,
