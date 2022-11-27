@@ -19,6 +19,7 @@ app.get('/api/create-paper-intent', (req, res) => {
         headers: {
             accept: 'application/json',
             'content-type': 'application/json',
+            gzip: true,
             Authorization: process.env.REACT_APP_PAPER_KEY
         },
         data: {
@@ -70,7 +71,6 @@ app.get('/api/get-my-books', (req, res) => {
         },
         headers: {
           'Content-Type': 'application/json',
-          encoding: null,
           Authorization: process.env.REACT_APP_NFT_PORT
         }
       };
