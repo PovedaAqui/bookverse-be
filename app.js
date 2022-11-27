@@ -49,8 +49,7 @@ app.get('/api/create-paper-intent', (req, res) => {
 
     axios.request(options)
     .then((response) => {
-        res.set({ 'content-type': 'application/json; charset=utf-8' });
-        res.json(response.data);
+        return res.json(response.data);
     })
     .catch((error) => {
         console.error(error);
