@@ -19,6 +19,7 @@ app.get('/api/create-paper-intent', (req, res) => {
         headers: {
             accept: 'application/json',
             'content-type': 'application/json',
+            charset: 'utf-8',
             Authorization: process.env.REACT_APP_PAPER_KEY
         },
         data: {
