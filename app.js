@@ -53,7 +53,7 @@ app.get('/api/create-paper-intent', (req, res) => {
       res.json(response.data);
     })
     .catch((error) => {
-        console.error(error);
+      console.error(error);
     });
 });
 
