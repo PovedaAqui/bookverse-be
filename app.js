@@ -50,7 +50,7 @@ app.get('/api/create-paper-intent', (req, res) => {
 
     axios.request(options)
     .then((response) => {
-      response.data;
+      res.json(response.data);
     })
     .catch((error) => {
         console.error(error);
@@ -78,7 +78,7 @@ app.get('/api/get-my-books', (req, res) => {
       
       axios.request(options)
       .then((response) => {
-        response.data;
+        res.json(response.data);
       })
       .catch((error) => {
         console.error(error);
