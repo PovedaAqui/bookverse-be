@@ -70,7 +70,7 @@ app.get('/api/get-my-books', (req, res) => {
         },
         headers: {
           'Content-Type': 'application/json',
-          gzip: true,
+          encoding: null,
           Authorization: process.env.REACT_APP_NFT_PORT
         }
       };
