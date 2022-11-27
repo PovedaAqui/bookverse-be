@@ -16,7 +16,6 @@ app.get('/api/create-paper-intent', (req, res) => {
     const options = {
         method: 'POST',
         url: 'https://paper.xyz/api/2022-08-12/checkout-link-intent',
-        encoding: null,
         headers: {
             accept: 'application/json',
             'content-type': 'application/json',
@@ -49,7 +48,7 @@ app.get('/api/create-paper-intent', (req, res) => {
 
     axios.request(options)
     .then((response) => {
-        return res.json(response.data);
+        res.json(response.data);
     })
     .catch((error) => {
         console.error(error);
