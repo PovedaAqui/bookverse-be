@@ -50,7 +50,7 @@ app.get('/api/create-paper-intent', (req, res) => {
 
     axios.request(options)
     .then((response) => {
-        res.json(response.data);
+        response.data;
     })
     .catch((error) => {
         console.error(error);
