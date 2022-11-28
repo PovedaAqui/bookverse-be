@@ -13,7 +13,7 @@ app.get('/api/create-paper-intent', (req, res) => {
     const listingId = req.query.listingId;
     const img = req.query.img;
     const name = req.query.name;
-    console.log(name);
+    console.log(req.query);
 
     const options = {
         method: 'POST',
