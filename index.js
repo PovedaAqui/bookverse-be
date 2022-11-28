@@ -12,6 +12,7 @@ app.get('/api/create-paper-intent', (req, res) => {
 
     const listingId = req.query.listingId;
     const img = req.query.img;
+    const name = req.query.name;
 
     const options = {
         method: 'POST',
@@ -40,11 +41,11 @@ app.get('/api/create-paper-intent', (req, res) => {
             redirectAfterPayment: true,
             sendEmailOnTransferSucceeded: true,
             contractId: 'fbdbf966-3231-48e7-bbee-3eb2a1eafa09',
-            title: 'Digital Collectible Book',
+            title: `${name}`,
             contractArgs: {tokenId: `${listingId}`},
             imageUrl: `${img}`,
             description: 'Please, choose the quantity',
-            successCallbackUrl: 'https://bookverse.vercel.app/',
+            successCallbackUrl: 'https://bookverse.vercel.app/mybooks',
             cancelCallbackUrl: `https://bookverse.vercel.app/${listingId}`
         }
     };
