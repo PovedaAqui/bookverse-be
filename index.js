@@ -44,8 +44,8 @@ app.get('/api/create-paper-intent', (req, res) => {
             contractArgs: {tokenId: `${listingId}`},
             imageUrl: `${img}`,
             description: 'Please, choose the quantity',
-            successCallbackUrl: 'https://bookverse.vercel.app/store',
-            cancelCallbackUrl: `https://bookverse.vercel.app/store/${listingId}`
+            successCallbackUrl: 'https://bookverse.vercel.app/',
+            cancelCallbackUrl: `https://bookverse.vercel.app/${listingId}`
         }
     };
 
