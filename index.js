@@ -8,7 +8,7 @@ const app = express();
 
 app.use(cors());
 
-app.get('/api/create-paper-intent', (req, res) => {
+app.get('/api/create-paper-intent', async (req, res) => {
 
     const listingId = req.query.listingId;
     const img = req.query.img;
@@ -50,41 +50,39 @@ app.get('/api/create-paper-intent', (req, res) => {
         }
     };
 
-    axios.request(options)
-    .then((response) => {
+    try {
+      const response = await axios.request(options);
       res.json(response.data);
-    })
-    .catch((error) => {
+    } catch (error) {
       console.error(error);
-    });
+  }
 });
 
-app.get('/api/get-my-books', (req, res) => {
+app.get('/api/get-my-books', async (req, res) => {
 
-    const address = req.query.address;
-    const chain = "polygon";
+  const address = req.query.address;
+  const chain = "polygon";
 
-    const options = {
-        method: 'GET',
-        url: `https://api.nftport.xyz/v0/accounts/${address}`,
-        params: {
-          chain: chain,
-          include: 'metadata',
-          contract_address: process.env.REACT_APP_DROP_CONTRACT
-        },
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: process.env.REACT_APP_NFT_PORT
-        }
-      };
-      
-      axios.request(options)
-      .then((response) => {
-        res.json(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+  const options = {
+      method: 'GET',
+      url: `https://api.nftport.xyz/v0/accounts/${address}`,
+      params: {
+        chain: chain,
+        include: 'metadata',
+        contract_address: process.env.REACT_APP_DROP_CONTRACT
+      },
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: process.env.REACT_APP_NFT_PORT
+      }
+    };
+    
+  try {
+      const response = await axios.request(options);
+      res.json(response.data);
+  } catch (error) {
+      console.error(error);
+  }
 });
 
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
