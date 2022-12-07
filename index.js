@@ -70,27 +70,23 @@ app.get('/api/get-my-books', async (req, res) => {
     if (data !== null) {
       res.json(JSON.parse(data));
     } else {
-      try {
-        const options = {
-          method: 'GET',
-          url: `https://api.nftport.xyz/v0/accounts/${address}`,
-          params: {
-          chain: chain,
-          include: 'metadata',
-          contract_address: process.env.REACT_APP_DROP_CONTRACT
-          },
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: process.env.REACT_APP_NFT_PORT
-            }
-          };
-          try {
-            const response = await axios.request(options);
-            client.setex(address, 3600, JSON.stringify(response.data)); // Store data in Redis cache
-            res.json(response.data);
-          } catch (error) {
-            console.error(error);
+      const options = {
+        method: 'GET',
+        url: `https://api.nftport.xyz/v0/accounts/${address}`,
+        params: {
+        chain: chain,
+        include: 'metadata',
+        contract_address: process.env.REACT_APP_DROP_CONTRACT
+        },
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: process.env.REACT_APP_NFT_PORT
           }
+      };
+      try {
+        const response = await axios.request(options);
+        client.setex(address, 3600, JSON.stringify(response.data)); // Store data in Redis cache
+        res.json(response.data);
       } catch (error) {
         console.error(error);
       }
