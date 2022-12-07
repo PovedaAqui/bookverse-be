@@ -61,18 +61,16 @@ app.get('/api/create-paper-intent', async (req, res) => {
 });
 
 app.get('/api/get-my-books', async (req, res) => {
+
   const address = req.query.address;
   const chain = "polygon";
 
-  // Check if the data is already in the cache
-  try {
-    const data = await client.get(address);
+  client.get(address, async (err, data) => {
+    if (err) throw err;
 
-    if (data != null) {
-      // If the data is in the cache, return it
+    if (data !== null) {
       res.json(JSON.parse(data));
     } else {
-      // If the data is not in the cache, fetch it from the API
       const options = {
         method: 'GET',
         url: `https://api.nftport.xyz/v0/accounts/${address}`,
@@ -88,18 +86,13 @@ app.get('/api/get-my-books', async (req, res) => {
       };
       
       try {
-        const response = await axios.request(options);
-        res.json(response.data);
-
-        // Store the data in the cache for future requests
-        client.set(address, JSON.stringify(response.data));
+          const response = await axios.request(options);
+          res.json(response.data);
       } catch (error) {
-        console.error(error);
+          console.error(error);
       }
     }
-  } catch (error) {
-    console.error(error);
-  }
+  });
 });
 
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
