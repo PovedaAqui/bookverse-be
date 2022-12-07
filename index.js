@@ -63,34 +63,46 @@ app.get('/api/get-my-books', async (req, res) => {
 
   const address = req.query.address;
   const chain = "polygon";
+
   const client = redis.createClient();
 
-  try {
-    client.get(address, async (err, data) => {
-      if (err) throw err;
+  client.on('error', (err) => {
+    console.log('Error ' + err);
+  });
 
-      if (data !== null) {
-        res.json(JSON.parse(data));
-      } else {
-        const options = {
+  await client.connect();
+
+  try {
+    const reply = await client.get(address);
+    if (reply) {
+      res.json(JSON.parse(reply));
+      console.log('from cache');
+      return;
+    } else {
+      const options = {
         method: 'GET',
         url: `https://api.nftport.xyz/v0/accounts/${address}`,
         params: {
-        chain: chain,
-        include: 'metadata',
-        contract_address: process.env.REACT_APP_DROP_CONTRACT
+          chain: chain,
+          include: 'metadata',
+          contract_address: process.env.REACT_APP_DROP_CONTRACT
         },
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: process.env.REACT_APP_NFT_PORT
-          }
-        };
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: process.env.REACT_APP_NFT_PORT
+        }
+      };
+
+      try {
           const response = await axios.request(options);
-          client.setex(address, 3600, JSON.stringify(response.data)); // Store data in Redis cache
+          client.set(address, JSON.stringify(response.data));
           res.json(response.data);
-    }});
+      } catch (error) {
+          console.error(error);
+      }
+    }
   } catch (error) {
-    console.error(error);
+    console.log(error);
   }
 });
 
