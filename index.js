@@ -65,39 +65,41 @@ app.get('/api/get-my-books', async (req, res) => {
   const chain = "polygon";
 
   // Check if the data is already in the cache
-  client.get(address, async (err, data) => {
-    if (err) throw err;
+  client.get(address)
+    .then(data => {
+      if (data != null) {
+        // If the data is in the cache, return it
+        res.json(JSON.parse(data));
+      } else {
+        // If the data is not in the cache, fetch it from the API
+        const options = {
+          method: 'GET',
+          url: `https://api.nftport.xyz/v0/accounts/${address}`,
+          params: {
+            chain: chain,
+            include: 'metadata',
+            contract_address: process.env.REACT_APP_DROP_CONTRACT
+          },
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: process.env.REACT_APP_NFT_PORT
+          }
+        };
+        
+        try {
+          const response = await axios.request(options);
+          res.json(response.data);
 
-    if (data != null) {
-      // If the data is in the cache, return it
-      res.json(JSON.parse(data));
-    } else {
-      // If the data is not in the cache, fetch it from the API
-      const options = {
-        method: 'GET',
-        url: `https://api.nftport.xyz/v0/accounts/${address}`,
-        params: {
-          chain: chain,
-          include: 'metadata',
-          contract_address: process.env.REACT_APP_DROP_CONTRACT
-        },
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: process.env.REACT_APP_NFT_PORT
+          // Store the data in the cache for future requests
+          client.set(address, JSON.stringify(response.data));
+        } catch (error) {
+          console.error(error);
         }
-      };
-      
-      try {
-        const response = await axios.request(options);
-        res.json(response.data);
-
-        // Store the data in the cache for future requests
-        client.set(address, JSON.stringify(response.data));
-      } catch (error) {
-        console.error(error);
       }
-    }
-  });
+    })
+    .catch(err => {
+      console.log(err);
+    });
 });
 
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
