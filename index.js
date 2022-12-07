@@ -87,6 +87,7 @@ app.get('/api/get-my-books', async (req, res) => {
       
       try {
           const response = await axios.request(options);
+          client.setex(address, 3600, JSON.stringify(response.data)); // Store data in Redis cache
           res.json(response.data);
       } catch (error) {
           console.error(error);
