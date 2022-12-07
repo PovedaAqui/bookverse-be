@@ -64,7 +64,9 @@ app.get('/api/get-my-books', async (req, res) => {
   const address = req.query.address;
   const chain = "polygon";
 
-  const client = redis.createClient();
+  const client = redis.createClient({
+    url: process.env.REDIS_URL,
+  });
 
   client.on('error', (err) => {
     console.log('Error ' + err);
