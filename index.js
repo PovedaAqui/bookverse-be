@@ -14,8 +14,7 @@ app.get('/api/create-paper-intent', async (req, res) => {
     const listingId = req.query.listingId;
     const img = req.query.img;
     const name = req.query.name;
-    const client = redis.createClient();
-
+    
     const options = {
         method: 'POST',
         url: 'https://paper.xyz/api/2022-08-12/checkout-link-intent',
@@ -64,35 +63,35 @@ app.get('/api/get-my-books', async (req, res) => {
 
   const address = req.query.address;
   const chain = "polygon";
+  const client = redis.createClient();
 
-  
+  try {
     client.get(address, async (err, data) => {
-      try {
       if (err) throw err;
 
       if (data !== null) {
         res.json(JSON.parse(data));
       } else {
         const options = {
-          method: 'GET',
-          url: `https://api.nftport.xyz/v0/accounts/${address}`,
-          params: {
-          chain: chain,
-          include: 'metadata',
-          contract_address: process.env.REACT_APP_DROP_CONTRACT
-          },
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: process.env.REACT_APP_NFT_PORT
-            }
-          };
-            const response = await axios.request(options);
-            client.setex(address, 3600, JSON.stringify(response.data)); // Store data in Redis cache
-            res.json(response.data);
-    }} catch (error) {
-      console.error(error);
-    }
-  });
+        method: 'GET',
+        url: `https://api.nftport.xyz/v0/accounts/${address}`,
+        params: {
+        chain: chain,
+        include: 'metadata',
+        contract_address: process.env.REACT_APP_DROP_CONTRACT
+        },
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: process.env.REACT_APP_NFT_PORT
+          }
+        };
+          const response = await axios.request(options);
+          client.setex(address, 3600, JSON.stringify(response.data)); // Store data in Redis cache
+          res.json(response.data);
+    }});
+  } catch (error) {
+    console.error(error);
+  }
 });
 
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
