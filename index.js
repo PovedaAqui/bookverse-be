@@ -66,7 +66,7 @@ app.get('/api/get-my-books', async (req, res) => {
   const chain = "polygon";
 
   client.get(address, async (err, data) => {
-    if (err) throw err;
+
     try {
       if (data !== null) {
         res.json(JSON.parse(data));
@@ -90,11 +90,10 @@ app.get('/api/get-my-books', async (req, res) => {
             res.json(response.data);
         } catch (error) {
             console.error(error);
-        }
-      }
-    } catch (error) {
+        }}
+      } catch (error) {
       console.error(error);
-    }
+    } 
   });
 });
 
