@@ -102,11 +102,11 @@ app.get('/api/get-my-books', async (req, res) => {
       } catch (error) {
           console.error(error);
       }
-      await client.quit();
     }
   } catch (error) {
     console.log(error);
   }
+  await client.quit();
 });
 
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
