@@ -9,8 +9,6 @@ const app = express();
 
 app.use(cors());
 
-redis.config.set('timeout', 5000);
-
 app.get('/api/create-paper-intent', async (req, res) => {
 
     const listingId = req.query.listingId;
@@ -68,6 +66,7 @@ app.get('/api/get-my-books', async (req, res) => {
 
   const client = redis.createClient({
     url: process.env.REDIS_URL,
+    timeout: 1000,
   });
 
   client.on('error', (err) => {
