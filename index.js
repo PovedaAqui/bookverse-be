@@ -79,6 +79,7 @@ app.get('/api/get-my-books', async (req, res) => {
     if (reply) {
       res.json(JSON.parse(reply));
       console.log('from cache');
+      await client.quit();
       return;
     } else {
       const options = {
@@ -99,12 +100,15 @@ app.get('/api/get-my-books', async (req, res) => {
           const response = await axios.request(options);
           client.set(address, JSON.stringify(response.data));
           res.json(response.data);
+          await client.quit();
       } catch (error) {
           console.error(error);
+          await client.quit();
       }
     }
   } catch (error) {
     console.log(error);
+    await client.quit();
   }
 });
 
