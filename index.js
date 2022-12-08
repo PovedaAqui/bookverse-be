@@ -66,7 +66,7 @@ app.get('/api/get-my-books', async (req, res) => {
 
   const client = redis.createClient({
     url: process.env.REDIS_URL,
-    timeout: 2000,
+    timeout: 5000,
   });
 
   client.on('error', (err) => {
