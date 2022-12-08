@@ -9,6 +9,8 @@ const app = express();
 
 app.use(cors());
 
+redis.config.set('timeout', 5000);
+
 app.get('/api/create-paper-intent', async (req, res) => {
 
     const listingId = req.query.listingId;
@@ -79,6 +81,7 @@ app.get('/api/get-my-books', async (req, res) => {
     if (reply) {
       res.json(JSON.parse(reply));
       console.log('from cache');
+      await client.quit();
       return;
     } else {
       const options = {
@@ -99,6 +102,7 @@ app.get('/api/get-my-books', async (req, res) => {
           const response = await axios.request(options);
           client.set(address, JSON.stringify(response.data));
           res.json(response.data);
+          await client.quit();
       } catch (error) {
           console.error(error);
       }
@@ -106,7 +110,6 @@ app.get('/api/get-my-books', async (req, res) => {
   } catch (error) {
     console.log(error);
   }
-  await client.quit();
 });
 
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
