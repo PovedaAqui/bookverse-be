@@ -64,9 +64,9 @@ app.get('/api/get-my-books', async (req, res) => {
   const address = req.query.address;
   const chain = "polygon";
 
+  // Timeout (2000) configured directly on the server
   const client = redis.createClient({
     url: process.env.REDIS_URL,
-    timeout: 5000,
   });
 
   client.on('error', (err) => {
