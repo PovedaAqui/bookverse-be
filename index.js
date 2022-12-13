@@ -80,7 +80,6 @@ app.get('/api/get-my-books', async (req, res) => {
     if (reply) {
       res.json(JSON.parse(reply));
       console.log('from cache');
-      checkRedisKey(address);
       await client.quit();
       return;
     } else {
@@ -112,38 +111,53 @@ app.get('/api/get-my-books', async (req, res) => {
   }
 });
 
-const checkRedisKey = (key) => {
+const checkRedisKey = () => {
   const client = redis.createClient({
     url: process.env.REDIS_URL,
   });
 
-   // get the value of the key from Redis
-   client.get(key, (error, result) => {
-    if (error) {
-      console.error(error);
-      return;
-    }
+  client.on('error', (err) => {
+    console.log('Error ' + err);
+  });
 
-    // store the original value of the key
-    const originalValue = result;
+  // gett all the keys from Redis
+  client.keys('*', (error, keys) => {
+    if (err) return console.log(err);
 
-    // wait for one second
-    setTimeout(() => {
-      // get the updated value of the key
-      client.get(key, (error, result) => {
+    // loop through all the keys
+    keys.forEach((key) => {
+      // get the value of the key from Redis
+      client.get(key, async (error, result) => {
         if (error) {
           console.error(error);
+          await client.quit();
           return;
         }
 
-        // compare the original value to the updated value
-        if (originalValue !== result) {
-          console.log(`The value of key "${key}" has changed`);
-          client.set(result, JSON.stringify(result.data));
-          res.json(result.data);
-        }
+        // store the original value of the key
+        const originalValue = result;
+
+        // wait for one second
+        setTimeout(() => {
+          // get the updated value of the key
+          client.get(key, async (error, result) => {
+            if (error) {
+              console.error(error);
+              await client.quit();
+              return;
+            }
+
+            // compare the original value to the updated value
+            if (originalValue !== result) {
+              console.log(`The value of key "${key}" has changed`);
+              client.set(result, JSON.stringify(result.data));
+              res.json(result.data);
+              await client.quit();
+            }
+          });
+        }, 1000);
       });
-    }, 1000);
+    });
   });
 };
 
