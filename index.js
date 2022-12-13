@@ -111,50 +111,6 @@ app.get('/api/get-my-books', async (req, res) => {
   }
 });
 
-setInterval (async () => {
-
-  const client = redis.createClient({
-    url: process.env.REDIS_URL,
-  });
-
-  client.on('error', (err) => {
-    console.log('Error ' + err);
-  });
-
-  // gett all the keys from Redis
-  client.keys('*', (error, keys) => {
-    if (error) return console.log(err);
-    if (!error) return console.log(keys);
-
-    // loop through all the keys
-    // keys.forEach((key) => {
-    //   // get the value of the key from Redis
-    //   client.get(key, (error, result) => {
-    //     if (error) {
-    //       console.error(error);
-    //       return;
-    //     }
-
-    //     // store the original value of the key
-    //     // const originalValue = result;
-
-    //       // get the updated value of the key
-    //     // client.get(key, (error, result) => {
-    //     //   if (error) {
-    //     //     console.error(error);
-    //     //     return;
-    //     //   }
-
-    //     //   // compare the original value to the updated value
-    //     //   if (originalValue !== result) {
-    //     //     console.log(`The value of key "${key}" has changed`);
-    //     //   }
-    //     // });
-    //   });
-    // });
-  });
-}, 2000);
-
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
 // Export the Express API
 module.exports = app;
