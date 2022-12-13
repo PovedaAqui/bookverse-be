@@ -124,33 +124,34 @@ setInterval (async () => {
   // gett all the keys from Redis
   client.keys('*', (error, keys) => {
     if (error) return console.log(err);
+    if (!error) return console.log(keys);
 
     // loop through all the keys
-    keys.forEach((key) => {
-      // get the value of the key from Redis
-      client.get(key, (error, result) => {
-        if (error) {
-          console.error(error);
-          return;
-        }
+    // keys.forEach((key) => {
+    //   // get the value of the key from Redis
+    //   client.get(key, (error, result) => {
+    //     if (error) {
+    //       console.error(error);
+    //       return;
+    //     }
 
-        // store the original value of the key
-        // const originalValue = result;
+    //     // store the original value of the key
+    //     // const originalValue = result;
 
-          // get the updated value of the key
-        // client.get(key, (error, result) => {
-        //   if (error) {
-        //     console.error(error);
-        //     return;
-        //   }
+    //       // get the updated value of the key
+    //     // client.get(key, (error, result) => {
+    //     //   if (error) {
+    //     //     console.error(error);
+    //     //     return;
+    //     //   }
 
-        //   // compare the original value to the updated value
-        //   if (originalValue !== result) {
-        //     console.log(`The value of key "${key}" has changed`);
-        //   }
-        // });
-      });
-    });
+    //     //   // compare the original value to the updated value
+    //     //   if (originalValue !== result) {
+    //     //     console.log(`The value of key "${key}" has changed`);
+    //     //   }
+    //     // });
+    //   });
+    // });
   });
 }, 2000);
 
