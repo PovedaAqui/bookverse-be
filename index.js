@@ -80,6 +80,7 @@ app.get('/api/get-my-books', async (req, res) => {
     if (reply) {
       res.json(JSON.parse(reply));
       console.log('from cache');
+      checkRedisKey(address);
       await client.quit();
       return;
     } else {
