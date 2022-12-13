@@ -111,10 +111,15 @@ app.get('/api/get-my-books', async (req, res) => {
   }
 });
 
-setInterval (() => {
-  const client = redis.createClient({
-    url: process.env.REDIS_URL,
-  });
+setInterval (async () => {
+
+  try {
+    const client = redis.createClient({
+      url: process.env.REDIS_URL,
+    });
+  } catch (error) {
+    console.log(error);
+  }
 
   client.on('error', (err) => {
     console.log('Error ' + err);
@@ -127,21 +132,19 @@ setInterval (() => {
     // loop through all the keys
     keys.forEach((key) => {
       // get the value of the key from Redis
-      client.get(key, async (error, result) => {
+      client.get(key, (error, result) => {
         if (error) {
           console.error(error);
-          await client.quit();
           return;
         }
 
         // store the original value of the key
-        const originalValue = await result;
+        const originalValue = result;
 
           // get the updated value of the key
-        client.get(key, async (error, result) => {
+        client.get(key, (error, result) => {
           if (error) {
             console.error(error);
-            await client.quit();
             return;
           }
 
@@ -150,7 +153,6 @@ setInterval (() => {
             console.log(`The value of key "${key}" has changed`);
             client.set(result, JSON.stringify(result.data));
             res.json(result.data);
-            await client.quit();
           }
         });
       });
