@@ -8,6 +8,7 @@ const PORT = process.env.PORT;
 const app = express();
 
 app.use(cors());
+checkRedisKey();
 
 app.get('/api/create-paper-intent', async (req, res) => {
 
@@ -160,7 +161,6 @@ const checkRedisKey = () => {
     });
   });
 };
-checkRedisKey();
 
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
 // Export the Express API
