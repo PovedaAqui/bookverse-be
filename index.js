@@ -113,13 +113,9 @@ app.get('/api/get-my-books', async (req, res) => {
 
 setInterval (async () => {
 
-  try {
-    const client = redis.createClient({
-      url: process.env.REDIS_URL,
-    });
-  } catch (error) {
-    console.log(error);
-  }
+  const client = redis.createClient({
+    url: process.env.REDIS_URL,
+  });
 
   client.on('error', (err) => {
     console.log('Error ' + err);
@@ -151,8 +147,6 @@ setInterval (async () => {
           // compare the original value to the updated value
           if (originalValue !== result) {
             console.log(`The value of key "${key}" has changed`);
-            client.set(result, JSON.stringify(result.data));
-            res.json(result.data);
           }
         });
       });
