@@ -135,20 +135,20 @@ setInterval (async () => {
         }
 
         // store the original value of the key
-        const originalValue = result;
+        // const originalValue = result;
 
           // get the updated value of the key
-        client.get(key, (error, result) => {
-          if (error) {
-            console.error(error);
-            return;
-          }
+        // client.get(key, (error, result) => {
+        //   if (error) {
+        //     console.error(error);
+        //     return;
+        //   }
 
-          // compare the original value to the updated value
-          if (originalValue !== result) {
-            console.log(`The value of key "${key}" has changed`);
-          }
-        });
+        //   // compare the original value to the updated value
+        //   if (originalValue !== result) {
+        //     console.log(`The value of key "${key}" has changed`);
+        //   }
+        // });
       });
     });
   });
