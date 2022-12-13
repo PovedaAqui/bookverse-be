@@ -111,6 +111,41 @@ app.get('/api/get-my-books', async (req, res) => {
   }
 });
 
+const checkRedisKey = (key) => {
+  const client = redis.createClient({
+    url: process.env.REDIS_URL,
+  });
+
+   // get the value of the key from Redis
+   client.get(key, (error, result) => {
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    // store the original value of the key
+    const originalValue = result;
+
+    // wait for one second
+    setTimeout(() => {
+      // get the updated value of the key
+      client.get(key, (error, result) => {
+        if (error) {
+          console.error(error);
+          return;
+        }
+
+        // compare the original value to the updated value
+        if (originalValue !== result) {
+          console.log(`The value of key "${key}" has changed`);
+          client.set(result, JSON.stringify(result.data));
+          res.json(result.data);
+        }
+      });
+    }, 1000);
+  });
+};
+
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
 // Export the Express API
 module.exports = app;
