@@ -122,7 +122,7 @@ const checkRedisKey = () => {
 
   // gett all the keys from Redis
   client.keys('*', (error, keys) => {
-    if (err) return console.log(err);
+    if (error) return console.log(err);
 
     // loop through all the keys
     keys.forEach((key) => {
@@ -135,7 +135,7 @@ const checkRedisKey = () => {
         }
 
         // store the original value of the key
-        const originalValue = result;
+        const originalValue = await result;
 
         // wait for one second
         setTimeout(() => {
@@ -160,6 +160,7 @@ const checkRedisKey = () => {
     });
   });
 };
+checkRedisKey();
 
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
 // Export the Express API
