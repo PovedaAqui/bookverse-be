@@ -67,6 +67,7 @@ app.get('/api/get-my-books', async (req, res) => {
   // Timeout (2seg) configured directly on the server
   const client = redis.createClient({
     url: process.env.REDIS_URL,
+    expire: 2
   });
 
   client.on('error', (err) => {
@@ -99,7 +100,7 @@ app.get('/api/get-my-books', async (req, res) => {
 
       try {
           const response = await axios.request(options);
-          client.set(address, JSON.stringify(response.data), 'EX', 2);
+          client.set(address, JSON.stringify(response.data));
           res.json(response.data);
           await client.quit();
       } catch (error) {
