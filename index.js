@@ -99,7 +99,7 @@ app.get('/api/get-my-books', async (req, res) => {
 
       try {
           const response = await axios.request(options);
-          client.set(address, JSON.stringify(response.data));
+          client.set(address, JSON.stringify(response.data), 'EX', 2);
           res.json(response.data);
           await client.quit();
       } catch (error) {
