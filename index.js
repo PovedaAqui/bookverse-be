@@ -47,7 +47,9 @@ app.get('/api/create-paper-intent', async (req, res) => {
             imageUrl: `${img}`,
             description: 'Please, choose the quantity',
             successCallbackUrl: 'https://bookverse.vercel.app/mybooks',
-            cancelCallbackUrl: `https://bookverse.vercel.app/${listingId}`
+            cancelCallbackUrl: `https://bookverse.vercel.app/${listingId}`,
+            postPurchaseMessageMarkdown: "<a href=\"https://twitter.com/bookversexyz?ref_src=twsrc%5Etfw\" class=\"twitter-follow-button\" data-show-count=\"false\">Follow @bookversexyz</a><script async src=\"https://platform.twitter.com/widgets.js\" charset=\"utf-8\"></script>",
+            postPurchaseButtonText: "Go to MyBooks",
         }
     };
 
