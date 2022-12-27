@@ -41,6 +41,7 @@ app.get('/api/create-paper-intent', async (req, res) => {
             limitPerTransaction: 10,
             redirectAfterPayment: true,
             sendEmailOnTransferSucceeded: true,
+            feeBearer: "SELLER",
             contractId: 'fbdbf966-3231-48e7-bbee-3eb2a1eafa09',
             title: `${name}`,
             contractArgs: {tokenId: `${listingId}`},
