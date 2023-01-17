@@ -42,7 +42,7 @@ app.get('/api/create-paper-intent', async (req, res) => {
             redirectAfterPayment: true,
             sendEmailOnTransferSucceeded: true,
             feeBearer: "SELLER",
-            contractId: 'fbdbf966-3231-48e7-bbee-3eb2a1eafa09',
+            contractId: '7fb7d3cc-c022-4e03-b067-f0b66d2bde2a',
             title: `${name}`,
             contractArgs: {tokenId: `${listingId}`},
             imageUrl: `${img}`,
