@@ -49,7 +49,7 @@ app.get('/api/create-paper-intent', async (req, res) => {
             description: 'Please, choose the quantity',
             successCallbackUrl: 'https://bookverse.vercel.app/shelf',
             cancelCallbackUrl: `https://bookverse.vercel.app/${listingId}`,
-            postPurchaseMessageMarkdown: "[![twitter](https://bookverse.s3.eu-west-3.amazonaws.com/2021+Twitter+logo+-+blue.png)](https://twitter.com/bookversexyz)",
+            postPurchaseMessageMarkdown: "[![twitter](https://bookverse.s3.eu-west-3.amazonaws.com/2021+Twitter+logo+-+blue.png =30x30)](https://twitter.com/bookversexyz)",
             postPurchaseButtonText: "Go to Shelf",
         }
     };
